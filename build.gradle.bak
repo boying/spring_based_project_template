@@ -1,0 +1,56 @@
+group 'jzw'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'war'
+apply plugin: 'jetty'
+
+war.archiveName "spring_based_project_template.war"
+
+/*
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.0'
+}
+*/
+
+sourceCompatibility = 1.8
+
+repositories {
+    maven { url "http://maven.aliyun.com/nexus/content/groups/public" }
+    mavenCentral()
+}
+
+processResources {
+    from("src/main/java") {
+        include "**/*"
+    }
+}
+
+def spring_version = "4.3.9.RELEASE"
+dependencies {
+    compile "org.springframework:spring-webmvc:$spring_version"
+    compile "org.springframework:spring-context:$spring_version"
+    compile "org.springframework:spring-tx:$spring_version"
+    compile "org.springframework:spring-aspects:$spring_version"
+    compile "org.springframework:spring-jdbc:$spring_version"
+
+    compile "org.codehaus.jackson:jackson-mapper-asl:1.9.13"
+    compile "com.fasterxml.jackson.core:jackson-databind:2.8.9"
+    compile "javax.servlet:servlet-api:2.5"
+    compile "org.mybatis:mybatis:3.4.4"
+    compile "org.mybatis:mybatis-spring:1.3.1"
+    compile "mysql:mysql-connector-java:5.1.39"
+    compile "com.zaxxer:HikariCP:2.6.3"
+    compile "org.slf4j:slf4j-api:1.6.1"
+    compile "org.slf4j:slf4j-log4j12:1.6.1"
+    compile "log4j:log4j:1.2.16"
+
+    testCompile "junit:junit:4.12"
+    testCompile "org.springframework:spring-test:$spring_version"
+}
+
+jettyRun {
+    contextPath "/"
+    httpPort 8080
+}

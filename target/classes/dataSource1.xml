@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <tx:annotation-driven/>
+
+    <bean id="dataSourceConfig1" class="com.zaxxer.hikari.HikariConfig">
+        <property name="driverClassName" value="${datasource1.driverClassName}"/>
+        <property name="jdbcUrl" value="${datasource1.jdbcUrl}"/>
+        <property name="username" value="${datasource1.username}"/>
+        <property name="password" value="${datasource1.password}"/>
+        <property name="maxLifetime" value="${datasource1.maxLifetime}"/>
+        <property name="maximumPoolSize" value="${datasource1.maximumPoolSize}"/>
+        <property name="minimumIdle" value="${datasource1.minimumIdle}"/>
+        <property name="connectionTimeout" value="${datasource1.connectionTimeout}"/>
+    </bean>
+
+    <bean id="dataSource1" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
+        <constructor-arg ref="dataSourceConfig1"/>
+    </bean>
+
+    <tx:advice id="txAdvice1" transaction-manager="txManager1">
+        <tx:attributes>
+            <tx:method name="get*" read-only="true"/>
+            <tx:method name="list*" read-only="true"/>
+            <tx:method name="*"/>
+        </tx:attributes>
+    </tx:advice>
+
+    <aop:config>
+        <aop:pointcut id="userServiceOperation" expression="execution(* boying.service.user.UserService.*(..))"/>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="userServiceOperation"/>
+    </aop:config>
+
+    <bean id="txManager1" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource1"/>
+    </bean>
+
+    <bean id="sqlSessionFactory1" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource1" />
+    </bean>
+
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory1" />
+        <property name="basePackage" value="boying.dao.user" />
+    </bean>
+
+</beans>

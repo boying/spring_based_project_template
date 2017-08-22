@@ -20,6 +20,7 @@
     * scheduled job
 * mybatis
     * multi datasource process
+    * enum type handler
 * log4j
 
 ## Other 

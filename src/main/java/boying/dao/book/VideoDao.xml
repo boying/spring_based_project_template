@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="boying.dao.book.VideoDao">
+
+    <resultMap id="videoMap" type="boying.domain.book.Video">
+        <result property="id" column="id" />
+        <result property="name" column="name" />
+        <result property="publisherName" column="publisher_name" />
+        <result property="stateCode" column="state_code" typeHandler="boying.common.mybatis.StateCodeHandler" />
+        <result property="type" column="type" typeHandler="boying.common.mybatis.VideoTypeHandler" />
+        <result property="updatedAt" column="updated_at" />
+        <result property="createdAt" column="created_at" />
+    </resultMap>
+
+    <insert id="addVideo" parameterType="boying.domain.book.Video" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO video(name, publisher_name, state_code, type)
+        VALUES
+        (#{name}, #{publisherName}, #{stateCode.code}, #{type.code})
+    </insert>
+
+    <select id="getVideoById" resultMap="videoMap">
+        SELECT *
+        FROM video
+        WHERE id = #{id}
+    </select>
+</mapper>

@@ -1,6 +1,7 @@
 package boying.service.book;
 
 import boying.dao.book.BookDao;
+import boying.dao.book.PicDao;
 import boying.domain.book.Book;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +23,7 @@ public class BookService {
     private BookDao bookDao;
 
     public Book getBookById(long id) {
+        System.out.println(this.hashCode());
         logger.info("BookService.getBookById into");
         Book ret = bookDao.getBookById(id);
         logger.info("BookService.getBookById done, ret is {}", ret);
@@ -42,5 +44,17 @@ public class BookService {
 
     public List<Book> fuzzyQueryBooksByName(String name) {
         return Optional.ofNullable(bookDao.fuzzyQueryBooksByName(name)).orElse(Collections.emptyList());
+    }
+
+    public BookDao getBookDao() {
+        return bookDao;
+    }
+
+    /**
+     * Mockito会调用setter设置mocker
+     * 详见 boying.service.book.BookServiceMockTest
+     */
+    public void setBookDao(BookDao bookDao) {
+        this.bookDao = bookDao;
     }
 }

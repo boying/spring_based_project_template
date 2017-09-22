@@ -30,8 +30,12 @@ public class BookServiceMockTest extends BaseTest {
      * 因此调用bookService的业务方法时，真正工作的dao并非bookDaoMock对象，所以mock的行为将失效
      *
      * 所以，如果希望Mockito mock spring容器中某对象的属性，需要为该属性添加setter
+     *
+     * 注意！！！
+     * 当你将spring容器中某对象的属性设置为mock对象后，该属性会一直是mock对象，因而可能会影响其他测试用例（因为其他测试用例使用的是spring中对象，它
+     * 认为spring中对象的属性不是mock的，而实际上却是是mock的）。所以，在ut方法结束后，需要将spring对象属性设置为原来的，保证不影响其他case
      */
-    @InjectMocks
+    //@InjectMocks
     @Autowired
     private BookService bookService;
 
@@ -40,11 +44,18 @@ public class BookServiceMockTest extends BaseTest {
 
     @Test
     public void getBookByIdTest(){
-        long bookId = 3;
-        Book book = new Book();
-        Mockito.when(bookDaoMock.getBookById(Mockito.anyLong())).thenReturn(book);
-        Book bookById = bookService.getBookById(bookId);
-        Assert.assertSame(book, bookById);
+        BookDao originBookDao = bookService.getBookDao();
+        try {
+            bookService.setBookDao(bookDaoMock);
+
+            long bookId = 3;
+            Book book = new Book();
+            Mockito.when(bookDaoMock.getBookById(Mockito.anyLong())).thenReturn(book);
+            Book bookById = bookService.getBookById(bookId);
+            Assert.assertSame(book, bookById);
+        }finally {
+            bookService.setBookDao(originBookDao);
+        }
     }
 
 }

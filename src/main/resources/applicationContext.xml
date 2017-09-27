@@ -12,12 +12,13 @@
 
     <context:component-scan base-package="boying"/>
 
-    <context:property-placeholder location="classpath:application.properties"/>
+    <context:property-placeholder location="classpath:application.properties" />
 
     <task:annotation-driven scheduler="myScheduler"/>
     <task:scheduler id="myScheduler" pool-size="10"/>
 
     <import resource="dataSource.xml"/>
     <import resource="dataSource1.xml"/>
+    <import resource="redis.xml"/>
 
 </beans>

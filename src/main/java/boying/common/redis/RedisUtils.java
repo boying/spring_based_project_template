@@ -13,6 +13,13 @@ import org.springframework.data.redis.serializer.RedisSerializer;
 public class RedisUtils {
     private RedisTemplate redisTemplate;
 
+    public RedisUtils() {
+    }
+
+    public RedisUtils(RedisTemplate redisTemplate) {
+        this.redisTemplate = redisTemplate;
+    }
+
     public void set(String key, Object value, Long milliseconds) {
         // TODO
         final String json;
@@ -20,8 +27,12 @@ public class RedisUtils {
             // TODO
             json = "";
         }else{
-            // TODO
-            json = "";
+            if(value instanceof String){
+                json = (String)value;
+            }else {
+                // TODO
+                json = "";
+            }
         }
         redisTemplate.execute(new RedisCallback() {
             @Override
@@ -58,8 +69,22 @@ public class RedisUtils {
         }
 
         String json = (String)obj;
+        if(clazz == String.class){
+            return (T)json;
+        }
         // TODO deserialize json
         return null;
     }
 
+    public String get(String key){
+        return get(key, String.class);
+    }
+
+    public RedisTemplate getRedisTemplate() {
+        return redisTemplate;
+    }
+
+    public void setRedisTemplate(RedisTemplate redisTemplate) {
+        this.redisTemplate = redisTemplate;
+    }
 }

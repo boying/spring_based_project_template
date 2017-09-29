@@ -7,8 +7,6 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 
-import static org.junit.Assert.*;
-
 /**
  * Created by boying on 2017/9/27.
  */

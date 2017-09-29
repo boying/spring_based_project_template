@@ -1,7 +1,6 @@
 package boying.service.book;
 
 import boying.dao.book.BookDao;
-import boying.dao.book.PicDao;
 import boying.domain.book.Book;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

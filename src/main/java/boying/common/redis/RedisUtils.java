@@ -1,11 +1,14 @@
 package boying.common.redis;
 
+import boying.common.gson.GsonUtils;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.types.Expiration;
 import org.springframework.data.redis.serializer.RedisSerializer;
+
+import java.lang.reflect.Type;
 
 /**
  * Created by boying on 2017/9/27.
@@ -30,17 +33,20 @@ public class RedisUtils {
             if(value instanceof String){
                 json = (String)value;
             }else {
-                // TODO
-                json = "";
+                json = GsonUtils.getGson().toJson(value);
             }
         }
+        set(key, value, milliseconds);
+    }
+
+    public void set(String key, byte[] bytes, Long milliseconds){
         redisTemplate.execute(new RedisCallback() {
             @Override
             public Object doInRedis(RedisConnection connection) throws DataAccessException {
                 if(milliseconds == null){
-                    connection.set(key.getBytes(), json.getBytes());
+                    connection.set(key.getBytes(), bytes);
                 }else {
-                    connection.set(key.getBytes(), json.getBytes(), Expiration.milliseconds(milliseconds), null);
+                    connection.set(key.getBytes(), bytes, Expiration.milliseconds(milliseconds), null);
                 }
                 return null;
             }
@@ -52,31 +58,67 @@ public class RedisUtils {
     }
 
     public <T> T get(String key, Class<T> clazz) {
-        Object obj = redisTemplate.execute(new RedisCallback() {
-            @Override
-            public Object doInRedis(RedisConnection connection) throws DataAccessException {
-                byte[] bytes = connection.get(key.getBytes());
-                if (bytes == null || bytes.length == 0) {
-                    return null;
-                }
-                // TODO why warning?
-                RedisSerializer<String> stringSerializer = redisTemplate.getStringSerializer();
-                return stringSerializer.deserialize(bytes);
-            }
-        });
-        if (obj == null) {
+        byte[] bytes = getBytes(key);
+        if(bytes == null){
             return null;
         }
 
-        String json = (String)obj;
+        if(bytes.length == 0){
+            // TODO
+            return null;
+        }
+
+        RedisSerializer<String> stringSerializer = redisTemplate.getStringSerializer();
+        String json = stringSerializer.deserialize(bytes);
+
+        if (json == null) {
+            return null;
+        }
+
         if(clazz == String.class){
             return (T)json;
         }
-        // TODO deserialize json
-        return null;
+        return GsonUtils.getGson().fromJson(json, clazz);
     }
 
-    public String get(String key){
+    /**
+     * Gson gen type, get("key", new TypeToken<>(){}.getType())
+     * @param key
+     * @param type
+     * @param <T>
+     * @return
+     */
+    public <T> T get(String key, Type type) {
+        byte[] bytes = getBytes(key);
+        if(bytes == null){
+            return null;
+        }
+
+        if(bytes.length == 0){
+            // TODO
+            return null;
+        }
+
+        RedisSerializer<String> stringSerializer = redisTemplate.getStringSerializer();
+        String json = stringSerializer.deserialize(bytes);
+
+        if (json == null) {
+            return null;
+        }
+
+        return GsonUtils.getGson().fromJson(json, type);
+    }
+
+    public byte[] getBytes(String key){
+        return (byte[])redisTemplate.execute(new RedisCallback<byte[]>() {
+            @Override
+            public byte[] doInRedis(RedisConnection connection) throws DataAccessException {
+                return connection.get(key.getBytes());
+            }
+        });
+    }
+
+    public String getString(String key){
         return get(key, String.class);
     }
 

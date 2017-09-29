@@ -9,7 +9,6 @@ import boying.service.book.BookService;
 import boying.service.book.PicService;
 import boying.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Service;
 

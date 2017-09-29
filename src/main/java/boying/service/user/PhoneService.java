@@ -1,7 +1,6 @@
 package boying.service.user;
 
 import boying.domain.user.Phone;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

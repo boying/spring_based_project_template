@@ -14,4 +14,10 @@
         FROM user
         WHERE id = #{id}
     </select>
+
+    <select id="getUserByName" resultType="boying.domain.user.User">
+        SELECT *
+        FROM user
+        WHERE name = #{name}
+    </select>
 </mapper>

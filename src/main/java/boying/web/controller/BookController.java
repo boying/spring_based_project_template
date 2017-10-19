@@ -1,7 +1,7 @@
-package boying.controller;
+package boying.web.controller;
 
 import boying.domain.book.Book;
-import boying.form.BookForm;
+import boying.web.form.BookForm;
 import boying.response.BaseResponse;
 import boying.response.ErrorCode;
 import boying.service.book.BookService;

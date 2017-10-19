@@ -10,4 +10,6 @@ public interface UserDao {
     void addUser(User user);
 
     User getUserById(@Param("id") long id);
+
+    User getUserByName(@Param("name") String name);
 }

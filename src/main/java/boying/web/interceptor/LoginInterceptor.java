@@ -1,4 +1,4 @@
-package boying.interceptor;
+package boying.web.interceptor;
 
 import boying.domain.user.User;
 import boying.response.BaseResponse;

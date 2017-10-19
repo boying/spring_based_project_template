@@ -1,4 +1,4 @@
-package boying.form;
+package boying.web.form;
 
 /**
  * Created by boying on 2017/7/21.

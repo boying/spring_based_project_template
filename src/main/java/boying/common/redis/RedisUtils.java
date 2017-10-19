@@ -1,6 +1,7 @@
 package boying.common.redis;
 
 import boying.common.gson.GsonUtils;
+import com.google.common.reflect.TypeToken;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.RedisCallback;
@@ -24,28 +25,28 @@ public class RedisUtils {
     }
 
     public void set(String key, Object value, Long milliseconds) {
-        // TODO
-        final String json;
-        if(value == null){
-            // TODO
-            json = "";
-        }else{
-            if(value instanceof String){
-                json = (String)value;
-            }else {
-                json = GsonUtils.getGson().toJson(value);
-            }
+        if (value == null) {
+            throw new IllegalArgumentException("value can't be null");
         }
-        set(key, value, milliseconds);
+        final String json;
+        if (value instanceof String) {
+            json = (String) value;
+        } else {
+            json = GsonUtils.getGson().toJson(value);
+        }
+        set(key, json.getBytes(), milliseconds);
     }
 
-    public void set(String key, byte[] bytes, Long milliseconds){
+    public void set(String key, byte[] bytes, Long milliseconds) {
+        if (bytes == null) {
+            throw new IllegalArgumentException("bytes can't be null");
+        }
         redisTemplate.execute(new RedisCallback() {
             @Override
             public Object doInRedis(RedisConnection connection) throws DataAccessException {
-                if(milliseconds == null){
+                if (milliseconds == null) {
                     connection.set(key.getBytes(), bytes);
-                }else {
+                } else {
                     connection.set(key.getBytes(), bytes, Expiration.milliseconds(milliseconds), null);
                 }
                 return null;
@@ -59,44 +60,52 @@ public class RedisUtils {
 
     public <T> T get(String key, Class<T> clazz) {
         byte[] bytes = getBytes(key);
-        if(bytes == null){
+
+        if (bytes == null) {
             return null;
         }
 
-        if(bytes.length == 0){
-            // TODO
-            return null;
+        if (bytes.length == 0) {
+            if (clazz == String.class) {
+                return (T) "";
+            }
+            throw new IllegalStateException("value bytes size is 0, can't be deserialized");
         }
 
         RedisSerializer<String> stringSerializer = redisTemplate.getStringSerializer();
         String json = stringSerializer.deserialize(bytes);
 
-        if (json == null) {
-            return null;
-        }
-
-        if(clazz == String.class){
-            return (T)json;
+        if (clazz == String.class) {
+            return (T) json;
         }
         return GsonUtils.getGson().fromJson(json, clazz);
     }
 
     /**
      * Gson gen type, get("key", new TypeToken<>(){}.getType())
+     *
      * @param key
      * @param type
      * @param <T>
      * @return
      */
     public <T> T get(String key, Type type) {
+        if (type == null) {
+            throw new IllegalArgumentException("type can't be null");
+        }
+
         byte[] bytes = getBytes(key);
-        if(bytes == null){
+        if (bytes == null) {
             return null;
         }
 
-        if(bytes.length == 0){
-            // TODO
-            return null;
+        if (bytes.length == 0) {
+            Type stringType = new TypeToken<String>() {
+            }.getType();
+            if (stringType.equals(type)) {
+                return (T) "";
+            }
+            throw new IllegalStateException("value bytes size is 0, can't be deserialized");
         }
 
         RedisSerializer<String> stringSerializer = redisTemplate.getStringSerializer();
@@ -109,8 +118,8 @@ public class RedisUtils {
         return GsonUtils.getGson().fromJson(json, type);
     }
 
-    public byte[] getBytes(String key){
-        return (byte[])redisTemplate.execute(new RedisCallback<byte[]>() {
+    public byte[] getBytes(String key) {
+        return (byte[]) redisTemplate.execute(new RedisCallback<byte[]>() {
             @Override
             public byte[] doInRedis(RedisConnection connection) throws DataAccessException {
                 return connection.get(key.getBytes());
@@ -118,7 +127,11 @@ public class RedisUtils {
         });
     }
 
-    public String getString(String key){
+    public void delete(String key) {
+        redisTemplate.delete(key);
+    }
+
+    public String getString(String key) {
         return get(key, String.class);
     }
 
@@ -130,3 +143,4 @@ public class RedisUtils {
         this.redisTemplate = redisTemplate;
     }
 }
+

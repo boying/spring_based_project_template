@@ -40,4 +40,7 @@
         <property name="connectionFactory"   ref="connectionFactory" />
     </bean>
 
+    <bean id="userSessionRedisUtils" class="boying.common.redis.RedisUtils">
+        <property name="redisTemplate" ref="redisTemplate" />
+    </bean>
 </beans>

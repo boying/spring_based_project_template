@@ -1,4 +1,4 @@
-package boying.interceptor;
+package boying.web.interceptor;
 
 import boying.response.BaseResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;

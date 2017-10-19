@@ -34,12 +34,12 @@
     <mvc:interceptors>
         <mvc:interceptor>
             <mvc:mapping path="/**"/>
-            <bean class="boying.interceptor.ExceptionInterceptor"/>
+            <bean class="boying.web.interceptor.ExceptionInterceptor"/>
         </mvc:interceptor>
 
         <mvc:interceptor>
             <mvc:mapping path="/**"/>
-            <bean class="boying.interceptor.LoginInterceptor"/>
+            <bean class="boying.web.interceptor.LoginInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>
 </beans>

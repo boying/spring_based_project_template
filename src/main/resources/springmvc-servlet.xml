@@ -34,7 +34,9 @@
     <mvc:interceptors>
         <mvc:interceptor>
             <mvc:mapping path="/**"/>
-            <bean class="boying.web.interceptor.ExceptionInterceptor"/>
+            <bean class="boying.web.interceptor.ExceptionInterceptor">
+                <property name="redirectUrl"></property>
+            </bean>
         </mvc:interceptor>
 
         <mvc:interceptor>

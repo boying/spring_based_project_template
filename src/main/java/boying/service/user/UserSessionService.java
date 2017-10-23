@@ -46,6 +46,8 @@ public class UserSessionService {
     public void expireSession(Long userId) {
     }
 
+    public void keepSession(String sessionId){}
+
     public static String genUerIdKey(Long userId) {
         return "user_id_" + userId;
     }

@@ -1,6 +1,6 @@
 package boying.web.interceptor;
 
-import boying.response.BaseResponse;
+import boying.web.response.BaseResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

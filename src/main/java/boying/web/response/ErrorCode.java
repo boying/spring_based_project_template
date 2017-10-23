@@ -1,4 +1,4 @@
-package boying.response;
+package boying.web.response;
 
 /**
  * Created by boying on 2017/7/24.

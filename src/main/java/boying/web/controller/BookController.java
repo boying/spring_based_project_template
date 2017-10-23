@@ -2,8 +2,8 @@ package boying.web.controller;
 
 import boying.domain.book.Book;
 import boying.web.form.BookForm;
-import boying.response.BaseResponse;
-import boying.response.ErrorCode;
+import boying.web.response.BaseResponse;
+import boying.web.response.ErrorCode;
 import boying.service.book.BookService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

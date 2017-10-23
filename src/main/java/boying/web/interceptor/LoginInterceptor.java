@@ -1,9 +1,9 @@
 package boying.web.interceptor;
 
-import boying.domain.user.User;
-import boying.response.BaseResponse;
-import boying.response.ErrorCode;
+import boying.common.gson.GsonUtils;
 import boying.service.user.UserService;
+import boying.service.user.UserSessionService;
+import boying.web.utils.WebUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,7 +32,7 @@ public class LoginInterceptor implements HandlerInterceptor {
     private static Logger logger = LoggerFactory.getLogger(LoginInterceptor.class);
     private static ObjectMapper mapper = new ObjectMapper();
 
-    private static final String HEADER_USER_ID = "userid";
+    private static final String COOKIE_USER_SESSION_ID = "sid";
 
     @Autowired
     private UserService userService;
@@ -40,7 +40,14 @@ public class LoginInterceptor implements HandlerInterceptor {
     @Value("#{loginWhiteList.login_white_list}")
     private String rawWhiteList;
 
+    @Autowired
+    private UserSessionService userSessionService;
+
+    @Autowired
+    private RequestUser requestUser;
+
     private Map<RequestMethod, List<Pattern>> methodPatternsMap = new HashMap<>();
+    private String redirectUrl;
 
     @PostConstruct
     private void initWhiteList() {
@@ -75,22 +82,50 @@ public class LoginInterceptor implements HandlerInterceptor {
             return true;
         }
 
-        String header = httpServletRequest.getHeader(HEADER_USER_ID);
-        if (header == null || "".equals(header.trim())) {
-            notLogin(httpServletResponse);
+        String sid = WebUtils.getCookie(httpServletRequest, COOKIE_USER_SESSION_ID);
+        if(sid == null){
+            whenNotLogined(httpServletRequest, httpServletResponse);
             return false;
         }
 
-        long userId = Long.parseLong(header.trim());
-        User user = userService.getUser(userId);
-        if (user == null) {
-            notLogin(httpServletResponse);
+        Long userId = userSessionService.getUserIdBySessionId(sid);
+        if(userId == null){
+            whenNotLogined(httpServletRequest, httpServletResponse);
             return false;
         }
+        userSessionService.keepSession(sid);
 
-        httpServletRequest.setAttribute("user", user);
+        requestUser.registerUser(userId);
 
         return true;
+    }
+
+    private void whenNotLogined(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
+        if(WebUtils.isAjaxRequest(httpServletRequest)){
+            whenAjaxNotLogined(httpServletRequest, httpServletResponse);
+        }else{
+            whenPageNotLogined(httpServletRequest, httpServletResponse);
+        }
+    }
+
+    private void whenPageNotLogined(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
+        String redirect = this.redirectUrl ;
+        if(WebUtils.isGetRequest(httpServletRequest)){
+            redirect = this.redirectUrl + "?redirect=" + WebUtils.encodeUrl(httpServletRequest);
+        }
+
+        try {
+            httpServletResponse.sendRedirect(redirect);
+        }catch (Throwable t){
+            throw new RuntimeException(t);
+        }
+    }
+
+    private void whenAjaxNotLogined(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
+        httpServletResponse.setContentType("application/json");
+        httpServletResponse.setStatus(401);
+        PrintWriter output = httpServletResponse.getWriter();
+        output.write(GsonUtils.getGson().toJson();
     }
 
     @Override
@@ -99,6 +134,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 
     @Override
     public void afterCompletion(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, Exception e) throws Exception {
+        requestUser.unregisterUser();
     }
 
     private boolean inWhiteList(HttpServletRequest httpServletRequest) {
@@ -125,4 +161,11 @@ public class LoginInterceptor implements HandlerInterceptor {
         writer.flush();
     }
 
+    public String getRedirectUrl() {
+        return redirectUrl;
+    }
+
+    public void setRedirectUrl(String redirectUrl) {
+        this.redirectUrl = redirectUrl;
+    }
 }

@@ -40,7 +40,7 @@ public class UserSessionService {
     }
 
     public void expireSesseion(String sessionId) {
-
+        redisUtils.delete(sessionId);
     }
 
     public void expireSession(Long userId) {

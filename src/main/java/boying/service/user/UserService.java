@@ -2,6 +2,8 @@ package boying.service.user;
 
 import boying.dao.user.UserDao;
 import boying.domain.user.User;
+import boying.web.form.LoginForm;
+import boying.web.response.BaseResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -24,4 +26,6 @@ public class UserService {
     public User getUser(long userId){
         return userDao.getUserById(userId);
     }
+
+
 }

@@ -14,8 +14,10 @@ public enum ErrorCode {
     BOOK_NOT_FOUND("01002", "book not found"),
 
     // user error code
-    USER_NOT_LOGIN("02001", "user not login")
+    USER_NOT_LOGIN("02001", "user not login"),
+    USER_LOGIN_FAILED("02002", "user login failed")
     ;
+
 
 
     private String code;

@@ -24,7 +24,7 @@ public class LoginService {
             return LoginResult.failed();
         }
 
-        if(!user.getPassword().equals(loginParam.getPasswrod())){
+        if(!user.getPassword().equals(loginParam.getPassword())){
             return LoginResult.failed();
         }
 
@@ -34,6 +34,10 @@ public class LoginService {
         result.setSessionId(sessionId);
 
         return result;
+    }
+
+    public void logout(String sessionId){
+        userSessionService.expireSesseion(sessionId);
     }
 
 }

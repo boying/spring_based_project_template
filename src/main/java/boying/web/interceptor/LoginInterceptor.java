@@ -3,6 +3,8 @@ package boying.web.interceptor;
 import boying.common.gson.GsonUtils;
 import boying.service.user.UserService;
 import boying.service.user.UserSessionService;
+import boying.web.response.BaseResponse;
+import boying.web.response.ErrorCode;
 import boying.web.utils.WebUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
@@ -83,13 +85,13 @@ public class LoginInterceptor implements HandlerInterceptor {
         }
 
         String sid = WebUtils.getCookie(httpServletRequest, COOKIE_USER_SESSION_ID);
-        if(sid == null){
+        if (sid == null) {
             whenNotLogined(httpServletRequest, httpServletResponse);
             return false;
         }
 
         Long userId = userSessionService.getUserIdBySessionId(sid);
-        if(userId == null){
+        if (userId == null) {
             whenNotLogined(httpServletRequest, httpServletResponse);
             return false;
         }
@@ -100,32 +102,38 @@ public class LoginInterceptor implements HandlerInterceptor {
         return true;
     }
 
-    private void whenNotLogined(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
-        if(WebUtils.isAjaxRequest(httpServletRequest)){
+    private void whenNotLogined(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
+        if (WebUtils.isAjaxRequest(httpServletRequest)) {
             whenAjaxNotLogined(httpServletRequest, httpServletResponse);
-        }else{
+        } else {
             whenPageNotLogined(httpServletRequest, httpServletResponse);
         }
     }
 
-    private void whenPageNotLogined(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
-        String redirect = this.redirectUrl ;
-        if(WebUtils.isGetRequest(httpServletRequest)){
+    private void whenPageNotLogined(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
+        String redirect = this.redirectUrl;
+        if (WebUtils.isGetRequest(httpServletRequest)) {
             redirect = this.redirectUrl + "?redirect=" + WebUtils.encodeUrl(httpServletRequest);
         }
 
         try {
             httpServletResponse.sendRedirect(redirect);
-        }catch (Throwable t){
+        } catch (Throwable t) {
             throw new RuntimeException(t);
         }
     }
 
-    private void whenAjaxNotLogined(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
+    private void whenAjaxNotLogined(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
         httpServletResponse.setContentType("application/json");
         httpServletResponse.setStatus(401);
-        PrintWriter output = httpServletResponse.getWriter();
-        output.write(GsonUtils.getGson().toJson();
+        PrintWriter output;
+        try {
+            output = httpServletResponse.getWriter();
+        } catch (Throwable t) {
+            throw new RuntimeException(t);
+        }
+
+        output.write(GsonUtils.getGson().toJson(new BaseResponse<>(ErrorCode.NOT_LOGIN)));
     }
 
     @Override

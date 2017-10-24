@@ -1,11 +1,16 @@
 package boying.dto.user;
 
+import lombok.Data;
+
 /**
  * Created by boying on 2017/10/19.
  */
+@Data
 public class LoginResult {
     private boolean loginSuccess;
     private String sessionId;
+    private int code;
+    private String msg;
 
     public static LoginResult success(){
         LoginResult result = new LoginResult();
@@ -17,21 +22,5 @@ public class LoginResult {
         LoginResult result = new LoginResult();
         result.setLoginSuccess(false);
         return result;
-    }
-
-    public boolean isLoginSuccess() {
-        return loginSuccess;
-    }
-
-    public void setLoginSuccess(boolean loginSuccess) {
-        this.loginSuccess = loginSuccess;
-    }
-
-    public String getSessionId() {
-        return sessionId;
-    }
-
-    public void setSessionId(String sessionId) {
-        this.sessionId = sessionId;
     }
 }

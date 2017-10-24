@@ -1,8 +1,11 @@
 package boying.web.response;
 
+import lombok.Data;
+
 /**
  * Created by boying on 2017/7/21.
  */
+@Data
 public class BaseResponse<T> {
     private String code;
     private String msg;
@@ -48,29 +51,5 @@ public class BaseResponse<T> {
 
     public static <T> BaseResponse<T> sysErr() {
         return new BaseResponse<T>(ErrorCode.SYS_ERR, null);
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public T getData() {
-        return data;
-    }
-
-    public void setData(T data) {
-        this.data = data;
-    }
-
-    public String getMsg() {
-        return msg;
-    }
-
-    public void setMsg(String msg) {
-        this.msg = msg;
     }
 }

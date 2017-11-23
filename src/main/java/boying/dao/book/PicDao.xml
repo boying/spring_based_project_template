@@ -4,9 +4,9 @@
 
 <mapper namespace="boying.dao.book.PicDao">
     <insert id="addPic" parameterType="boying.domain.book.Pic" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO pic(name)
+        INSERT INTO pic(name, updated_at, created_at)
         VALUES
-        (#{name})
+        (#{name}, #{updated_at}, #{created_at})
     </insert>
 
     <insert id="addPics" parameterType="java.util.List" flushCache="true">

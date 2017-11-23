@@ -7,6 +7,9 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+
 /**
  * Created by boying on 2017/7/5.
  */
@@ -21,6 +24,8 @@ public class BookDaoTest extends BaseTest {
         Book book = new Book();
         book.setName("a book");
         book.setIsbn("isbnxxx");
+        book.setCreated_at(Timestamp.valueOf(LocalDateTime.now()));
+        book.setUpdated_at(Timestamp.valueOf(LocalDateTime.now()));
         bookDao.addBook(book);
 
         long id = book.getId();

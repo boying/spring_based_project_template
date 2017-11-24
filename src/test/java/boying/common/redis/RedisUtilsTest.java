@@ -33,7 +33,7 @@ public class RedisUtilsTest extends BaseTest{
 
     @Test
     public void getTest() throws Exception {
-        String value = redisUtils.get("jzw_test");
+        String value = redisUtils.getString("jzw_test");
         Assert.assertEquals(value, "jzw_value");
 
     }

@@ -56,4 +56,8 @@ public class BookService {
     public void setBookDao(BookDao bookDao) {
         this.bookDao = bookDao;
     }
+
+    public BookService self(){
+        return this;
+    }
 }

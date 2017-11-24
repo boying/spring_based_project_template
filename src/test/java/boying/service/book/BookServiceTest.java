@@ -24,6 +24,14 @@ public class BookServiceTest extends BaseTest {
         book.setIsbn("isbn");
         bookService.addBook(book);
 
+        Class<? extends BookService> aClass = bookService.getClass();
+        System.out.println(aClass);
+
+        Class<? extends BookService> aClass1 = bookService.self().getClass();
+        System.out.println(aClass1);
+
+        Assert.assertTrue(aClass == aClass1);
+
         Assert.assertTrue(book.getId() > 0);
     }
 

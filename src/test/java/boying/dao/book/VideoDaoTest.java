@@ -9,6 +9,9 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+
 @Transactional("txManager")
 public class VideoDaoTest extends BaseTest {
     @Autowired
@@ -21,16 +24,15 @@ public class VideoDaoTest extends BaseTest {
         video.setPublisherName("publisher_name_x");
         video.setStateCode(StateCode.STATE_2);
         video.setType(VideoType.LOVE);
+        video.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
+        video.setUpdatedAt(Timestamp.valueOf(LocalDateTime.now()));
         videoDao.addVideo(video);
 
         long id = video.getId();
         Assert.assertTrue(id > 0);
 
         Video video2 = videoDao.getVideoById(id);
-        Assert.assertTrue(video.getName().equals(video2.getName())
-        && video.getPublisherName().equals(video2.getPublisherName())
-        && video.getStateCode().equals(video2.getStateCode())
-        && video.getType().equals(video2.getType()));
+        Assert.assertTrue(video.equals(video2));
     }
 
 }

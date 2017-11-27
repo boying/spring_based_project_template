@@ -43,7 +43,7 @@ public class BookServiceTest extends BaseTest {
         bookService.addBook(book);
         bookService.deleteBook(book.getId());
         book = bookService.getBookById(book.getId());
-        Assert.assertEquals(book.getIs_delete(), 1);
+        Assert.assertEquals(book.getIsDelete(), 1);
     }
 
     @Test

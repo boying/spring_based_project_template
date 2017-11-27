@@ -3,6 +3,14 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="boying.dao.book.PicDao">
+    <sql id="allColumns">
+        id,
+        name,
+        updated_at,
+        created_at
+    </sql>
+
+
     <insert id="addPic" parameterType="boying.domain.book.Pic" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO pic(name, updated_at, created_at)
         VALUES

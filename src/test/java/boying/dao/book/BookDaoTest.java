@@ -24,16 +24,16 @@ public class BookDaoTest extends BaseTest {
         Book book = new Book();
         book.setName("a book");
         book.setIsbn("isbnxxx");
-        book.setCreated_at(Timestamp.valueOf(LocalDateTime.now()));
-        book.setUpdated_at(Timestamp.valueOf(LocalDateTime.now()));
+        book.setPhoneNumber("479464646");
+        book.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
+        book.setUpdatedAt(Timestamp.valueOf(LocalDateTime.now()));
         bookDao.addBook(book);
 
         long id = book.getId();
         Assert.assertTrue(id > 0);
 
         Book getBook = bookDao.getBookById(id);
-        Assert.assertTrue(book.getName().equals(getBook.getName())
-                && book.getIsbn().equals(getBook.getIsbn()));
+        Assert.assertEquals(book, getBook);
     }
 
 }

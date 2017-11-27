@@ -36,8 +36,8 @@ public class SpringTransactionSelfInvocationTest extends BaseTest{
     public void before(){
         pic = new Pic();
         pic.setName("pic_name");
-        pic.setUpdated_at(Timestamp.valueOf(LocalDateTime.now()));
-        pic.setCreated_at(Timestamp.valueOf(LocalDateTime.now()));
+        pic.setUpdatedAt(Timestamp.valueOf(LocalDateTime.now()));
+        pic.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
     }
 
     /**

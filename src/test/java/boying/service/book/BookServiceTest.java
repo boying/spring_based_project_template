@@ -7,6 +7,8 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -22,6 +24,9 @@ public class BookServiceTest extends BaseTest {
         Book book = new Book();
         book.setName("name");
         book.setIsbn("isbn");
+        book.setPhoneNumber("32423423");
+        book.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
+        book.setUpdatedAt(Timestamp.valueOf(LocalDateTime.now()));
         bookService.addBook(book);
 
         Class<? extends BookService> aClass = bookService.getClass();
@@ -40,6 +45,9 @@ public class BookServiceTest extends BaseTest {
         Book book = new Book();
         book.setName("name");
         book.setIsbn("isbn");
+        book.setPhoneNumber("32423423");
+        book.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
+        book.setUpdatedAt(Timestamp.valueOf(LocalDateTime.now()));
         bookService.addBook(book);
         bookService.deleteBook(book.getId());
         book = bookService.getBookById(book.getId());
@@ -51,6 +59,9 @@ public class BookServiceTest extends BaseTest {
         Book book = new Book();
         book.setName("name");
         book.setIsbn("isbn");
+        book.setPhoneNumber("32423423");
+        book.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
+        book.setUpdatedAt(Timestamp.valueOf(LocalDateTime.now()));
         bookService.addBook(book);
 
         String newName = "newName";
@@ -61,8 +72,7 @@ public class BookServiceTest extends BaseTest {
 
         book = bookService.getBookById(book.getId());
 
-        Assert.assertEquals(newName, book.getName());
-        Assert.assertEquals(newIsbn, book.getIsbn());
+        Assert.assertEquals(book, book);
     }
 
     @Test
@@ -70,6 +80,10 @@ public class BookServiceTest extends BaseTest {
         Book book = new Book();
         book.setName("xfuzzyQueryBooksByName1");
         book.setIsbn("isbn");
+        book.setPhoneNumber("32423423");
+        book.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
+        book.setUpdatedAt(Timestamp.valueOf(LocalDateTime.now()));
+
         bookService.addBook(book);
         book.setName("xfuzzyQueryBooksByName2");
         bookService.addBook(book);

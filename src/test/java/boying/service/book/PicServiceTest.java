@@ -7,6 +7,9 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+
 /**
  * Created by boying on 2017/7/6.
  */
@@ -19,6 +22,8 @@ public class PicServiceTest extends BaseTest{
     public void addAndGetTest(){
         Pic pic = new Pic();
         pic.setName("picName");
+        pic.setUpdatedAt(Timestamp.valueOf(LocalDateTime.now()));
+        pic.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
         picService.addPic(pic);
         Assert.assertTrue(pic.getId() > 0);
 

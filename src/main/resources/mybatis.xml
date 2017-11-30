@@ -9,5 +9,9 @@
         <typeHandler handler="boying.common.mybatis.VideoTypeHandler" />
     </typeHandlers>
 
+    <plugins>
+        <plugin interceptor="boying.common.dal.mybatis.MonitorPlugin" />
+    </plugins>
+
 </configuration>
 

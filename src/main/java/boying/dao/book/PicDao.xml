@@ -7,14 +7,29 @@
         id,
         name,
         updated_at,
-        created_at
+        created_at,
+        is_delete
     </sql>
 
+    <sql id="allColumnsUpsert">
+        name,
+        updated_at,
+        created_at,
+        is_delete
+    </sql>
+
+    <resultMap id="picMap" type="boying.domain.book.Pic">
+        <result property="id" column="id" />
+        <result property="name" column="name" />
+        <result property="updatedAt" column="updated_at" />
+        <result property="createdAt" column="created_at" />
+        <result property="isDelete" column="is_delete" />
+    </resultMap>
 
     <insert id="addPic" parameterType="boying.domain.book.Pic" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO pic(name, updated_at, created_at)
+        INSERT INTO pic(<include refid="allColumnsUpsert" />)
         VALUES
-        (#{name}, #{updated_at}, #{created_at})
+        (#{name}, #{updatedAt}, #{createdAt}, #{isDelete})
     </insert>
 
     <insert id="addPics" parameterType="java.util.List" flushCache="true">
@@ -31,8 +46,8 @@
         WHERE id = #{id}
     </update>
 
-    <select id="getPicById" resultType="boying.domain.book.Pic">
-        SELECT *
+    <select id="getPicById" resultMap="picMap">
+        SELECT <include refid="allColumns" />
         FROM pic
         WHERE id = #{id}
     </select>

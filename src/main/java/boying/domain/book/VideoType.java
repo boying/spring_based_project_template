@@ -3,7 +3,7 @@ package boying.domain.book;
 import boying.domain.IntCode;
 
 /**
- * Created by jiangzhiwen592 on 2017/8/22.
+ * Created by boying on 2017/8/22.
  */
 public enum VideoType implements IntCode {
     ACTION(0, "动作片"),

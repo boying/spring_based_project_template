@@ -7,6 +7,9 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+
 /**
  * Created by boying on 2017/7/6.
  */
@@ -19,6 +22,8 @@ public class UserServiceTest extends BaseTest {
     public void addUserTest() {
         User user = new User();
         user.setName("haha");
+        user.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
+        user.setUpdatedAt(Timestamp.valueOf(LocalDateTime.now()));
         userService.addUser(user);
 
         Assert.assertTrue(user.getId() > 0);
@@ -28,9 +33,13 @@ public class UserServiceTest extends BaseTest {
     public void getUserTest() {
         User user = new User();
         user.setName("haha");
+        user.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
+        user.setUpdatedAt(Timestamp.valueOf(LocalDateTime.now()));
         userService.addUser(user);
-        user = userService.getUser(user.getId());
-        Assert.assertNotNull(user);
+
+        User getUser = userService.getUser(user.getId());
+
+        Assert.assertEquals(user, getUser);
     }
 
 }

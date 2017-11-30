@@ -53,12 +53,22 @@ public class ConnectionProxy implements Connection {
 
     @Override
     public void commit() throws SQLException {
-        realConnection.commit();
+        try {
+            realConnection.commit();
+            logger.info("SQL commit success");
+        } catch (SQLException e) {
+            logger.error("SQL commit failed", e);
+        }
     }
 
     @Override
     public void rollback() throws SQLException {
-        realConnection.rollback();
+        try {
+            realConnection.rollback();
+            logger.info("SQL rollback success");
+        } catch (SQLException e) {
+            logger.error("SQL rollback failed", e);
+        }
     }
 
     @Override

@@ -8,7 +8,7 @@ import java.sql.*;
 /**
  * Created by boying on 2017/11/24.
  */
-public class StatementProxy implements Statement{
+public class StatementProxy implements Statement {
     private Logger logger = LoggerFactory.getLogger(StatementProxy.class);
 
     private Statement realStatement;
@@ -89,7 +89,17 @@ public class StatementProxy implements Statement{
 
     @Override
     public boolean execute(String sql) throws SQLException {
-        return realStatement.execute(sql);
+        String sqlId = SqlContext.getInstance().getSqlId();
+        if (sqlId != null) {
+            long startTime = System.currentTimeMillis();
+            boolean ret = realStatement.execute(sql);
+            long endTime = System.currentTimeMillis();
+            logger.info(String.format("SQL[%s] cost %dms", sqlId, endTime - startTime));
+            return ret;
+        } else {
+            logger.debug("StatementProxy.execute called");
+            return realStatement.execute(sql);
+        }
     }
 
     @Override

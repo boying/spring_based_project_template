@@ -23,17 +23,17 @@
     </sql>
 
     <resultMap id="bookMap" type="boying.domain.book.Book">
-        <result property="id" column="id" />
-        <result property="name" column="name" />
-        <result property="isbn" column="isbn" />
-        <result property="phoneNumber" column="phone_number" />
-        <result property="updatedAt" column="updated_at" />
-        <result property="createdAt" column="created_at" />
-        <result property="isDelete" column="is_delete" />
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="isbn" column="isbn"/>
+        <result property="phoneNumber" column="phone_number"/>
+        <result property="updatedAt" column="updated_at"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="isDelete" column="is_delete"/>
     </resultMap>
 
     <insert id="addBook" parameterType="boying.domain.book.Book" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO book(<include refid="allColumnsUpsert" />)
+        INSERT INTO book(<include refid="allColumnsUpsert"/>)
         VALUES
         (#{name},#{isbn}, #{phoneNumber}, #{updatedAt}, #{createdAt}, #{isDelete})
     </insert>
@@ -45,10 +45,10 @@
     </update>
 
     <insert id="addBooks" parameterType="java.util.List" flushCache="true">
-        INSERT INTO book(<include refid="allColumnsUpsert" />)
+        INSERT INTO book(<include refid="allColumnsUpsert"/>)
         VALUES
-        <foreach collection="list" item="item" separator="," open="(" close=")">
-            #{name},#{isbn}, #{phoneNumber}, #{updatedAt}, #{createdAt}, #{isDelete}
+        <foreach collection="list" item="item" separator=",">
+            (#{name},#{isbn}, #{phoneNumber}, #{updatedAt}, #{createdAt}, #{isDelete})
         </foreach>
     </insert>
 
@@ -60,13 +60,15 @@
     </update>
 
     <select id="getBookById" resultMap="bookMap">
-        SELECT <include refid="allColumns" />
+        SELECT
+        <include refid="allColumns"/>
         FROM book
         WHERE id = #{id}
     </select>
 
     <select id="fuzzyQueryBooksByName" resultMap="bookMap" parameterType="java.lang.String">
-        SELECT <include refid="allColumns" />
+        SELECT
+        <include refid="allColumns"/>
         FROM book
         WHERE name like '%${name}%'
     </select>

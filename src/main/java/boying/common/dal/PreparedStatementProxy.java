@@ -1,5 +1,8 @@
 package boying.common.dal;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.InputStream;
 import java.io.Reader;
 import java.math.BigDecimal;
@@ -11,6 +14,7 @@ import java.util.Calendar;
  * Created by boying on 2017/11/24.
  */
 public class PreparedStatementProxy implements PreparedStatement {
+    private static final Logger logger = LoggerFactory.getLogger(PreparedStatementProxy.class);
     private PreparedStatement realPreparedStatement;
 
     public PreparedStatementProxy(PreparedStatement realPreparedStatement) {
@@ -129,7 +133,17 @@ public class PreparedStatementProxy implements PreparedStatement {
 
     @Override
     public boolean execute() throws SQLException {
-        return realPreparedStatement.execute();
+        String sqlId = SqlContext.getInstance().getSqlId();
+        if (sqlId != null) {
+            long startTime = System.currentTimeMillis();
+            boolean ret = realPreparedStatement.execute();
+            long endTime = System.currentTimeMillis();
+            logger.info(String.format("SQL[%s] cost %dms", sqlId, endTime - startTime));
+            return ret;
+        }else {
+            logger.debug("PreparedStatementProxy.execute called");
+            return realPreparedStatement.execute();
+        }
     }
 
     @Override
@@ -294,7 +308,17 @@ public class PreparedStatementProxy implements PreparedStatement {
 
     @Override
     public ResultSet executeQuery(String sql) throws SQLException {
-        return realPreparedStatement.executeQuery(sql);
+        String sqlId = SqlContext.getInstance().getSqlId();
+        if (sqlId != null) {
+            long startTime = System.currentTimeMillis();
+            ResultSet resultSet = realPreparedStatement.executeQuery(sql);
+            long endTime = System.currentTimeMillis();
+            logger.info(String.format("SQL[%s] cost %dms", sqlId, endTime - startTime));
+            return resultSet;
+        }else {
+            logger.debug("PreparedStatementProxy.executeQuery called");
+            return realPreparedStatement.executeQuery(sql);
+        }
     }
 
     @Override

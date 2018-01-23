@@ -72,4 +72,11 @@
         FROM book
         WHERE name like '%${name}%'
     </select>
+
+     <update id="updateNameById">
+        UPDATE book SET
+        name = #{name}
+        WHERE id = #{id}
+    </update>
+
 </mapper>

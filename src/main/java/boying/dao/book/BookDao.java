@@ -18,4 +18,6 @@ public interface BookDao {
     void updateBook(Book book);
 
     List<Book> fuzzyQueryBooksByName(@Param("name") String name);
+
+    int updateNameById(@Param("name") String name, @Param("id") long id);
 }

@@ -36,4 +36,23 @@ public class BookDaoTest extends BaseTest {
         Assert.assertEquals(book, getBook);
     }
 
+    @Test
+    public void updateNameByIdTest(){
+        String newName = "name";
+        int affectedRows = bookDao.updateNameById(newName, 123L);
+        Assert.assertTrue(affectedRows == 0);
+
+        Book book = new Book();
+        book.setName("a book");
+        book.setIsbn("isbnxxx");
+        book.setPhoneNumber("479464646");
+        book.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
+        book.setUpdatedAt(Timestamp.valueOf(LocalDateTime.now()));
+        bookDao.addBook(book);
+        affectedRows = bookDao.updateNameById(newName, book.getId());
+        Assert.assertTrue(affectedRows == 1);
+        Book b = bookDao.getBookById(book.getId());
+        Assert.assertEquals(b.getName(), newName);
+    }
+
 }

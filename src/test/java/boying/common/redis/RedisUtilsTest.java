@@ -3,6 +3,7 @@ package boying.common.redis;
 import boying.BaseTest;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -10,6 +11,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 /**
  * Created by boying on 2017/9/27.
  */
+@Ignore
 public class RedisUtilsTest extends BaseTest{
     @Autowired
     private RedisTemplate redisTemplate;

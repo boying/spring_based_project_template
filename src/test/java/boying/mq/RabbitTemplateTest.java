@@ -2,6 +2,7 @@ package boying.mq;
 
 import boying.BaseTest;
 import com.google.common.collect.ImmutableMap;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import java.util.Map;
 /**
  * Created by boying on 2017/9/29.
  */
+@Ignore
 public class RabbitTemplateTest extends BaseTest{
     @Resource(name = "rabbitTemplate")
     private AmqpTemplate amqpTemplate;

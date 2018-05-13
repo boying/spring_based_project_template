@@ -2,6 +2,7 @@ CREATE TABLE `book` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL DEFAULT '',
   `isbn` varchar(45) NOT NULL DEFAULT '',
+  `phone_number` varchar(45) NOT NULL DEFAULT '',
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `is_delete` tinyint(4) NOT NULL DEFAULT '0',

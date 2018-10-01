@@ -27,7 +27,6 @@ public class BookDaoTest extends BaseTest {
         Book book = new Book();
         book.setName("a book");
         book.setIsbn("isbnxxx");
-        book.setPhoneNumber("479464646");
         /*
         book.setCreatedAt(Timestamp.valueOf(LocalDateTime.now().minusDays(1)));
         book.setUpdatedAt(Timestamp.valueOf(LocalDateTime.now().minusDays(1)));
@@ -53,7 +52,6 @@ public class BookDaoTest extends BaseTest {
         Book book = new Book();
         book.setName("a book");
         book.setIsbn("isbnxxx");
-        book.setPhoneNumber("479464646");
         book.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
         book.setUpdatedAt(Timestamp.valueOf(LocalDateTime.now()));
         bookDao.insertSelective(book);

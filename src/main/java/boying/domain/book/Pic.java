@@ -8,8 +8,6 @@ public class Pic {
 
     private String name;
 
-    private String phoneNumber;
-
     private Date updatedAt;
 
     private Date createdAt;
@@ -30,14 +28,6 @@ public class Pic {
 
     public void setName(String name) {
         this.name = name == null ? null : name.trim();
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber == null ? null : phoneNumber.trim();
     }
 
     public Date getUpdatedAt() {

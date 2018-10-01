@@ -4,13 +4,12 @@
   <resultMap id="BaseResultMap" type="boying.domain.book.Pic" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="phone_number" property="phoneNumber" jdbcType="VARCHAR" />
     <result column="updated_at" property="updatedAt" jdbcType="TIMESTAMP" />
     <result column="created_at" property="createdAt" jdbcType="TIMESTAMP" />
     <result column="is_delete" property="isDelete" jdbcType="TINYINT" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, name, phone_number, updated_at, created_at, is_delete
+    id, name, updated_at, created_at, is_delete
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="Long" >
     select 'false' as QUERYID,
@@ -22,10 +21,10 @@
     <selectKey resultType="Long" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into pic (name, phone_number, updated_at, 
-      created_at, is_delete)
-    values (#{name,jdbcType=VARCHAR}, #{phoneNumber,jdbcType=VARCHAR}, #{updatedAt,jdbcType=TIMESTAMP}, 
-      #{createdAt,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=TINYINT})
+    insert into pic (name, updated_at, created_at, 
+      is_delete)
+    values (#{name,jdbcType=VARCHAR}, #{updatedAt,jdbcType=TIMESTAMP}, #{createdAt,jdbcType=TIMESTAMP}, 
+      #{isDelete,jdbcType=TINYINT})
   </insert>
   <insert id="insertSelective" parameterType="boying.domain.book.Pic" >
     <selectKey resultType="Long" keyProperty="id" order="AFTER" >
@@ -35,9 +34,6 @@
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="name != null" >
         name,
-      </if>
-      <if test="phoneNumber != null" >
-        phone_number,
       </if>
       <if test="updatedAt != null" >
         updated_at,
@@ -52,9 +48,6 @@
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="name != null" >
         #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="phoneNumber != null" >
-        #{phoneNumber,jdbcType=VARCHAR},
       </if>
       <if test="updatedAt != null" >
         #{updatedAt,jdbcType=TIMESTAMP},

@@ -10,8 +10,6 @@ public class Book {
 
     private String isbn;
 
-    private String phoneNumber;
-
     private Date updatedAt;
 
     private Date createdAt;
@@ -40,14 +38,6 @@ public class Book {
 
     public void setIsbn(String isbn) {
         this.isbn = isbn == null ? null : isbn.trim();
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber == null ? null : phoneNumber.trim();
     }
 
     public Date getUpdatedAt() {

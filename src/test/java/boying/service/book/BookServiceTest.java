@@ -25,7 +25,6 @@ public class BookServiceTest extends BaseTest {
         Book book = new Book();
         book.setName("name");
         book.setIsbn("isbn");
-        book.setPhoneNumber("32423423");
         book.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
         book.setUpdatedAt(Timestamp.valueOf(LocalDateTime.now()));
         bookService.addBook(book);
@@ -46,7 +45,6 @@ public class BookServiceTest extends BaseTest {
         Book book = new Book();
         book.setName("name");
         book.setIsbn("isbn");
-        book.setPhoneNumber("32423423");
         book.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
         book.setUpdatedAt(Timestamp.valueOf(LocalDateTime.now()));
         bookService.addBook(book);
@@ -60,7 +58,6 @@ public class BookServiceTest extends BaseTest {
         Book book = new Book();
         book.setName("name");
         book.setIsbn("isbn");
-        book.setPhoneNumber("32423423");
         book.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
         book.setUpdatedAt(Timestamp.valueOf(LocalDateTime.now()));
         bookService.addBook(book);
@@ -81,7 +78,6 @@ public class BookServiceTest extends BaseTest {
         Book book = new Book();
         book.setName("xfuzzyQueryBooksByName1");
         book.setIsbn("isbn");
-        book.setPhoneNumber("32423423");
         book.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
         book.setUpdatedAt(Timestamp.valueOf(LocalDateTime.now()));
 

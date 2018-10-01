@@ -2,6 +2,7 @@ package boying.service.book;
 
 import boying.BaseTest;
 import boying.domain.book.Book;
+import boying.domain.enums.BoolType;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +52,7 @@ public class BookServiceTest extends BaseTest {
         bookService.addBook(book);
         bookService.deleteBook(book.getId());
         book = bookService.getBookById(book.getId());
-        Assert.assertEquals(book.getIsDelete(), 1);
+        Assert.assertEquals(book.getIsDelete(), BoolType.TRUE);
     }
 
     @Test

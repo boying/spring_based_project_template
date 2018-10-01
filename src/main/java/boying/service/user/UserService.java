@@ -20,11 +20,11 @@ public class UserService {
     private UserDao userDao;
 
     public void addUser(User user){
-        userDao.addUser(user);
+        userDao.insertSelective(user);
     }
 
     public User getUser(long userId){
-        return userDao.getUserById(userId);
+        return userDao.selectByPrimaryKey(userId);
     }
 
 

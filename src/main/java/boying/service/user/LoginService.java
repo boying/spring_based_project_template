@@ -37,7 +37,7 @@ public class LoginService {
     }
 
     public void logout(String sessionId){
-        userSessionService.expireSesseion(sessionId);
+        userSessionService.expireSession(sessionId);
     }
 
 }

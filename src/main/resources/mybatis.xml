@@ -5,12 +5,13 @@
 
 <configuration>
     <typeHandlers>
-        <typeHandler handler="boying.common.mybatis.StateCodeHandler" />
-        <typeHandler handler="boying.common.mybatis.VideoTypeHandler" />
+        <typeHandler handler="boying.common.mybatis.EnumHandler" javaType="boying.domain.enums.StateCode"/>
+        <typeHandler handler="boying.common.mybatis.EnumHandler" javaType="boying.domain.enums.VideoType"/>
+        <typeHandler handler="boying.common.mybatis.EnumHandler" javaType="boying.domain.enums.BoolType"/>
     </typeHandlers>
 
     <plugins>
-        <plugin interceptor="boying.common.dal.mybatis.MonitorPlugin" />
+        <plugin interceptor="boying.common.dal.mybatis.MonitorPlugin"/>
     </plugins>
 
 </configuration>

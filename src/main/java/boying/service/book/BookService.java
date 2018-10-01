@@ -24,13 +24,13 @@ public class BookService {
     public Book getBookById(long id) {
         System.out.println(this.hashCode());
         logger.info("BookService.getBookById into");
-        Book ret = bookDao.getBookById(id);
+        Book ret = bookDao.selectByPrimaryKey(id);
         logger.info("BookService.getBookById done, ret is {}", ret);
         return ret;
     }
 
     public void addBook(Book book) {
-        bookDao.addBook(book);
+        bookDao.insertSelective(book);
     }
 
     public void deleteBook(long id) {

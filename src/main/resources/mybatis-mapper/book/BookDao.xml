@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="boying.dao.book.BookDao">
+
+    <resultMap id="BaseResultMap" extends="boying.dao.book.mapper.BookMapper.BaseResultMap"
+               type="boying.domain.book.Book"/>
+
+    <sql id="Base_Column_List">
+        <include refid="boying.dao.book.mapper.BookMapper.Base_Column_List"/>
+    </sql>
+
+    <update id="deleteBook">
+        UPDATE book
+        set is_delete = 1
+        WHERE id = #{id}
+    </update>
+
+    <update id="updateBook" parameterType="boying.domain.book.Book">
+        UPDATE book SET
+        name = #{name},
+        isbn = #{isbn}
+        WHERE id = #{id}
+    </update>
+
+    <select id="fuzzyQueryBooksByName" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM book
+        WHERE name like '%${name}%'
+    </select>
+
+     <update id="updateNameById">
+        UPDATE book SET
+        name = #{name}
+        WHERE id = #{id}
+    </update>
+
+</mapper>

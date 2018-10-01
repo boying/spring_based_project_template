@@ -16,7 +16,7 @@ public class PicServiceImp implements IPicService{
 
     @Transactional("txManager")
     public void addPicThrowException(Pic pic) {
-        picDao.addPic(pic);
+        picDao.insertSelective(pic);
         throw new RuntimeException();
     }
 
@@ -25,6 +25,6 @@ public class PicServiceImp implements IPicService{
     }
 
     public Pic getPic(long id){
-        return picDao.getPicById(id);
+        return picDao.selectByPrimaryKey(id);
     }
 }

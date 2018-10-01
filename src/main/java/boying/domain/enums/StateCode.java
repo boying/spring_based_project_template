@@ -1,8 +1,6 @@
-package boying.domain.book;
+package boying.domain.enums;
 
-import boying.domain.StringCode;
-
-public enum StateCode implements StringCode{
+public enum StateCode implements EnumCode<String> {
     STATE_1("001", "state 1"),
     STATE_2("002", "state 2"),
     ;

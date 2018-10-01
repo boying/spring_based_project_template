@@ -20,12 +20,12 @@ public class PicService {
 
     public Pic getPicById(long id) {
         logger.info("PicService.getPicById into, id is {}", id);
-        return picDao.getPicById(id);
+        return picDao.selectByPrimaryKey(id);
     }
 
     @Transactional("txManager")
     public void addPic(Pic pic) {
-        picDao.addPic(pic);
+        picDao.insertSelective(pic);
     }
 
     public void log(){

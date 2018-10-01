@@ -49,7 +49,7 @@ public class BookServiceMockTest extends BaseTest {
 
             long bookId = 3;
             Book book = new Book();
-            Mockito.when(bookDaoMock.getBookById(Mockito.anyLong())).thenReturn(book);
+            Mockito.when(bookDaoMock.selectByPrimaryKey(Mockito.anyLong())).thenReturn(book);
             Book bookById = bookService.getBookById(bookId);
             Assert.assertSame(book, bookById);
         }finally {

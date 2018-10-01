@@ -2,6 +2,8 @@ package boying.dao.book;
 
 import boying.BaseTest;
 import boying.domain.book.Book;
+import boying.domain.enums.BoolType;
+import org.apache.commons.lang.builder.EqualsBuilder;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * Created by boying on 2017/7/5.
@@ -25,15 +28,20 @@ public class BookDaoTest extends BaseTest {
         book.setName("a book");
         book.setIsbn("isbnxxx");
         book.setPhoneNumber("479464646");
-        book.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
-        book.setUpdatedAt(Timestamp.valueOf(LocalDateTime.now()));
-        bookDao.addBook(book);
+        /*
+        book.setCreatedAt(Timestamp.valueOf(LocalDateTime.now().minusDays(1)));
+        book.setUpdatedAt(Timestamp.valueOf(LocalDateTime.now().minusDays(1)));
+        */
+        book.setCreatedAt(new Date());
+        book.setUpdatedAt(new Date());
+        book.setIsDelete(BoolType.FALSE);
+        bookDao.insertSelective(book);
 
         long id = book.getId();
         Assert.assertTrue(id > 0);
 
-        Book getBook = bookDao.getBookById(id);
-        Assert.assertEquals(book, getBook);
+        Book getBook = bookDao.selectByPrimaryKey(id);
+        Assert.assertNotNull(getBook);
     }
 
     @Test
@@ -48,10 +56,10 @@ public class BookDaoTest extends BaseTest {
         book.setPhoneNumber("479464646");
         book.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
         book.setUpdatedAt(Timestamp.valueOf(LocalDateTime.now()));
-        bookDao.addBook(book);
+        bookDao.insertSelective(book);
         affectedRows = bookDao.updateNameById(newName, book.getId());
         Assert.assertTrue(affectedRows == 1);
-        Book b = bookDao.getBookById(book.getId());
+        Book b = bookDao.selectByPrimaryKey(book.getId());
         Assert.assertEquals(b.getName(), newName);
     }
 

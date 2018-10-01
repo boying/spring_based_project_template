@@ -1,11 +1,9 @@
-package boying.domain.book;
-
-import boying.domain.IntCode;
+package boying.domain.enums;
 
 /**
  * Created by boying on 2017/8/22.
  */
-public enum VideoType implements IntCode {
+public enum VideoType implements EnumCode<Integer> {
     ACTION(0, "动作片"),
     LOVE(1, "爱情片");
     int code;
@@ -17,7 +15,7 @@ public enum VideoType implements IntCode {
     }
 
     @Override
-    public int getCode() {
+    public Integer getCode() {
         return code;
     }
 }

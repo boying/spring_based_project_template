@@ -39,7 +39,7 @@ public class UserSessionService {
         return null;
     }
 
-    public void expireSesseion(String sessionId) {
+    public void expireSession(String sessionId) {
         redisUtils.delete(sessionId);
     }
 
